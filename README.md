@@ -6,15 +6,12 @@ This repo is meant to act as top level reference and not so much a thorough expl
 # **Index**
 
 **Convolutional Neural Neworks and Computer Vision**
-
-
 *   Image Classification
 *   Object Detection
 *   Segmentation
 *   Object Tracking
 
 **Generative Models**
-
 *   AutoEncoders
 *   Denoising AutoEncoders
 *   Variational AutoEncoders (VAE)
@@ -23,18 +20,15 @@ This repo is meant to act as top level reference and not so much a thorough expl
 *   Diffusion Models
 
 **Recurrent Models**
-
 *  Vanilla
 *  LSTM & GRU
 *  Bi-Directional
 
 **Transformers**
-
 *  Transformers for NLP
 *  Vision Transformers (ViT)
 
 **Deep Reinforcement Learning**
-
 * Model-Free
   * On Policy
   * Off Policy
@@ -57,11 +51,15 @@ To refresh your memory; The **convolutional** layer applies multiple **filters**
 
 A good resource on CNNs: [CNN Explanation Video](https://www.youtube.com/watch?v=JB8T_zN7ZC0&ab_channel=BrandonRohrer)
 
+![CV](./Images/1_OCsh4qf4lLoRAY-rlSZmJw.png)
+
 ### **Image Classification**
 
 Image classification is the task of assigning a class value of perdetermined categories to an image. Image classification generally refers to classifying the image as a whole, as opposed to other computer vision tasks which analyze multiple objects at a time (see object detection below).
 
 The structure of an image classification model can be a simple CNN configuration (as explained above and shown below), with the last layer correlating to probabilities of each image class. Of course the models can become much larger and deeper to account for larger image size and complexity. Recently, CNNs have been supplemented by, and replaced by, Vision Transformers for state of the art results (see transformers section below). Vision transformers do not utilize CNNs.
+
+![LeNet](./Images/lenet.png)
 
 ### **Object Detection**
 
@@ -75,11 +73,15 @@ The result is many bounding boxes for the same object, possibly one for each cel
 
 The image below is of YOLO v1. The final output is a matrix of 7x7x30, which corresponds to the 7x7 grid, a depth of 30 features for each grid. The features will include the bounding box coordinates of the object and a one-hot classification.
 
+![YOLO](./Images/yolo1.png)
+
 ### **Segmentation**
 
 Semantic segmentation is the process of taking an image and segmenting everything into a specific class at the pixel level (see image below). Instead of downsampling the image to a fully connected layer of classes and/or coordinates, the image is downsampled and then upsampled back again into the original size. The output pixel values are no longer RGB values but instead values that classify each pixel of the image into a pre-defined category.
 
 Because features tend to get lost in very deep networks, features from earlier layers are added together with later layers of the same dimensions in order to retrieve some of the original features. Known as skip connections. This is also used in Image Classification as well (See RESNet paper above).
+
+![Segmentation](./Images/segmentation.png)
 
 ### **Object Tracking**
 
@@ -92,6 +94,9 @@ Many models utilize the **Kalman Filter**, which estimates probability of the st
 DeepSORT is arguably the most popular object tracking algorithm (shown below). It works well with complex scenarios compared to other algorithms but at the cost of a more complex algorithm, slower inference time and a GPU requirement. It begins by using YOLO object detection on the current frame, associating the detected objects to the objects already being tracked, initializing and removing object IDs as necessary, and updating the Kalman Filter. Output is a list of bounding boxes with object IDs.
 
 Other algorithms which are generally more lightweight but not as accurate include MDNet, GOTURN, and ROLO.
+
+
+![DeepSORT](./Images/deepsort3.png)
 
 # **Generative Models**
 
