@@ -34,7 +34,7 @@ This repo is meant to act as top level reference and not so much a thorough expl
   * Off Policy
 * Model-Based
 
-* Genetic Algorithms
+* *Genetic Algorithms
 
 # **Convolutional Neural Networks and Computer Vision**
 
@@ -110,6 +110,8 @@ Other algorithms which are generally more lightweight but not as accurate includ
 
 An autoencoder is a fundamental network used for dimensionality reduction and unsupervised feature extraction. The network is trained to take an input and reduce the size in increments, down to a lower dimensional latent space of your choosing. It is able to strip the data down to only it's most essential features while removing unecessary noise. Once it is of a smaller dimension, the network is then expanded again to the original dimensions of the data and compared to the original output. The loss between original and output is used to determine how well the data compression worked. In the end, we really only care about the first half of the model, so that we can obtain a lower dimensional (encoded) data representation, also known as latent space.
 
+![AutoEncoder](./Images/AE.png)
+
 ### **Denoising AutoEncoder**
 
 **Example Use Case:** *Denoising Audio*
@@ -134,6 +136,8 @@ With Recurrent Neural Networks (below, not yet covered), the output from the net
 
 The image below is a popular representation of the autogregressive model WaveNet by Deepmind, for generating audio. It utilizes a fully connected **causal and dilated** one dimensional temporal convolutional neural network, in order to deal with sequential data. A causal CNN means that the CNN only uses present and past input values to determine present output, excluding future values. Dilated means that its receptive field grows exponentially with depth (blue arrows) to cover thousands of timesteps in the past. The blue dots at the bottom are input values, and the orange is output value, which progress through time because audio is a sequential data type.
 
+![AutoRegressive](./Images/Autoregressive.png)
+
 ### **Generative Adversarial Network (GAN)**
 
 **Important Papers:** [Original](https://arxiv.org/abs/1406.2661) (Ian Goodfellow, 2014) , [CycleGAN](https://arxiv.org/abs/1703.10593), [StyleGAN](https://arxiv.org/abs/1812.04948)
@@ -144,6 +148,8 @@ The generator is, intuitively, the model which generates output data. A random s
 
 The discriminator is a classifier which classifies output from the generator as real or fake. The error of its guess is determined and updates the discrimator through standard backprop, increasing its ability to classify. As it trains it will become better at classifying, which will in turn produce better outputs from the generator.
 
+![GAN](./Images/GAN.png)
+
 ### **Diffusion Models**
 
 **Important Papers:** [Sohl-DickStein et al.](Sohl-Dickstein) (2015), [Nichol et al.](https://arxiv.org/pdf/2102.09672.pdf) (2021), [Dall-e 2](https://cdn.openai.com/papers/dall-e-2.pdf) (2022)
@@ -153,6 +159,8 @@ An increasingly popular generative model (image generation especially) with SOTA
 The neural network is actually learning the noise of the previous step so that it can be removed and become one step closer to a 'noiseless' image. The network is modeled as a markov process, which means the result is only dependent on the current step without regard to data from previous steps. The only requirement for the model is that its input and output dimensionality are identical. A U-Net architecture is the popular choice for determining the noise posterior. The actual architecture of the network is flexible.
 
 During training, the model learns the noise distribution that was added in the previous step. During inference, the model is fed a noisy image and predicts the noise distributuion to be removed. The image is passed through the model thousands of times, on each pass removing a small amount of noise, until the image is clear of any noise.
+
+![Diffusion](./Images/Diffusion.png)
 
 # **Recurrent Neural Networks**
 
@@ -172,6 +180,8 @@ Three types of RNNs:
 2.   **Many - One** Multiple input vectors fed into network, one at a time, with previous model output fed in at the same time. One output. (Text classification)
 3.   **Many - Many** Multiple vectors fed into model, one at a time, along with model output, with multiple output vectors. (Language translation)
 
+![RNN](./Images/RNN1.png)
+
 ### **Long Short Term Memory (LSTM) / Gated Recurrent Units (GRU)**
 
 As mentioned above, vanilla RNNs suffer from poor long term memory. LSTMs and GRUs were created to allow more information from earlier in the sequence to be remembered. It achieves this by 'forgetting' non-relevant pieces of information and passing through only the most important data to the next pass. In this way the model is able to retain much more information from past values in the sequence with the same amount of memory and without becomming overloaded with irrelevant information. The network determines which data is relevant through training, by passing it through a series of sigmoid functions (output between 0 and 1) and removing it or adding it to the **cell state** (memory) on each pass.
@@ -180,11 +190,15 @@ LSTMs and GRUs have similar goals and methods to achieve them. GRUs are able to 
 
 A good resource: [LSTMs & GRUs](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
 
+![LSTM](./Images/LSTM_GRU.png)
+
 ### **Bi-Driectional RNNs**
 
 All of the methods above traditionally run through the sequential data in order from beginning to end, so outputs can only be dependent on past and present data. But there are many sentences where important information is held in the second half of the sentence which gives context to the first half of the sentence. So if we are feeding the sentence into our network, word by word, the output values of the first half may not be completely accurate because it doesn't yet have the context of the second half of the sentence. (e.g. Today is my dad's birthday, *if he were still alive*.)
 
 BRNNs are fairly simple to understand and implement, you really just need to add a new layer to the network which begins taking input from the end of the data and works its way backwards to the beginning. This way the combined output values have context from the beginning and end of the sentence as it feeds the data through. 
+
+![BDRNN](./Images/bi-directional_RNN.png)
 
 # **Transformer Networks**
 
@@ -199,9 +213,11 @@ Proposed in 2017, works with sequential data but neither convolutional nor recur
 
 The two primary concepts that you need to know for transformers are **positional encodings** and **self-attention**.
 
-Other models that process sequential data (RNNs, Autoregressive) require the data to be fed in sequential order to understand relationships between words. **Positional encodings** allow the model to encode the position of each word along with the text encoding. This allows the model to understand past, present, and future relations between words all at once. It also means that the model can be parallelized during training.
+Other models that process sequential data (RNNs, Autoregressive) require the data to be fed in sequential order to understand relationships between words. **Positional encodings** allow the transformer model to encode the position of each word along with the text encoding. This allows the model to understand past, present, and future relations between words all at once. It also means that the model can be parallelized during training.
 
 **Self attention** helps map relationships between words. It is really just a vector of weights learned through training on very large text datasets which provides information on how much individual words relate to other words in the sentence. It allows the model understand the sentence structure better through context of other words and focus on the most important aspects of the sequence.
+
+![Transformer](./Images/transformer.png)
 
 ### **Vision Transformers**
 
@@ -210,6 +226,8 @@ Other models that process sequential data (RNNs, Autoregressive) require the dat
 Just entering the scene a few years ago, vision transformers (ViT) utilize the same positional encoding and attention mechanism from transformers for computer vision applications. ViTs have quickly become SOTA for image classification and other computer vision applications. They are able to outperform convolutional neural networks for tasks like image classification if the training dataset is very large.
 
 An image is first separated out in a series of patches (16x16 in original paper). Each patch is given a positional encoding to retain it's original structure, and fed into a transformer encoder that is very similar to the original NLP transformer model. Attention is used again to determine how regions of the image correlate to one another (instead of correlation of words). The output is then fed into a fully connected layer for classification.
+
+![ViT](./Images/Vision_Transformer.png)
 
 # **Deep Reinforcement Learning**
 
@@ -223,8 +241,6 @@ RL consists of setting up an enviornment and allowing the model to determine opt
 Deep RL is often categorized into two main categories:
 1.  **Model Based:** Used when we have a complete understanding of a fixed environment and can model future states accurately. The agent is able to plan ahead due to guaranteed response information for future moves and has much higher sample efficiency. (Games)
 2.  **Model Free:** When he have incomplete information about the environment. Information about the enviornment is learned through experience. Since most environments can not be modeled perfectly in the real world, model free RL is a more common approach. (Real-world scenarios)
-
-
 
 
 The **policy** is the overarching strategy used to determine which action should be performed next, given the current state. Within **Model Free** type algorithms there are two major types:
@@ -241,6 +257,8 @@ There is A LOT to understand about reinforcement learning and it is not my stron
 
 **Use Cases:** Model Optimization
 
-Though genertic algorithms are not directly related to RL, they are similar enough for me to just tack it onto this section instead of creating a new section for it. You can find plenty of videos online of AI "evolving" to learn to walk, perform an activity, or play a game via genetic algorithms. But you can also use genetic algorithms on any NN type in order to optimize hyperparameters or weights.
+Though genertic algorithms are not directly related to RL, they are similar enough in idea for me (iteratively, trial and error) to just tack it onto this section instead of creating a new section for it. You can find plenty of videos online of AI "evolving" to learn to walk, perform an activity, or play a game via genetic algorithms. But you can also use genetic algorithms on any NN type in order to optimize hyperparameters or weights.
 
-The basic idea is to iteratively initialize a set of neural networks, evaluate and find the top performers, generate a new set of NNs with the same parameters/ hyperparameters as the top performers with some "mutations" (changes in parameters). Evaluate this new set, determine top performers, add mutations, rinse and repeat until you have an optimal solution.
+The basic idea is to iteratively initialize a set of neural networks, evaluate and find the top performers, generate a new set of NNs with the same parameters/ hyperparameters as the top performers with some "mutations" (changes in parameters). Evaluate this new set, determine top performers, add mutations, rinse and repeat over and over until you have an optimal solution.
+
+![Genetic](./Images/Genetic.jpg)
