@@ -10,6 +10,7 @@ This repo is meant to act as top level reference and not so much a thorough expl
 *   Object Detection
 *   Segmentation
 *   Object Tracking
+*   Deep Metric Learning (Coming Soon)
 
 **Generative Models**
 *   AutoEncoders
