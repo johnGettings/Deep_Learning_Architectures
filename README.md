@@ -50,6 +50,8 @@ Convolutional neural networks work best on data with a large number of features 
 
 To refresh your memory; The **convolutional** layer applies multiple **filters** (values to be multiplied by pixel values) across the image. These filters transform the original data to highlight various features such as egdes, curves, shapes, and texture over many subsections of the image. There are usually several iterations of convolving and **pooling**. Pooling is the process of downsampling the image by sliding a pooling **kernel** over the image of a certain **stride** value, similar to the convolution process. **Max Pooling** will slide across the image with a fixed size grid and distill that portion of the image down to the maximum value between all values within the kernel window. After convolving and pooling you will have a smaller representation of the image. The encoded image can either be upsampled back into its original size (segmentation) or fed into a few fully connected layers for classification, depending on your desired output. See CNN architecture below.
 
+Convolving over an image will modify number of output channels of the image. Depth of image will be number of filters applied. Pooling will decrease image size (height and width). A stride of 2 will halve the image size, for both convolving and pooling.
+
 A good resource on CNNs: [CNN Explanation Video](https://www.youtube.com/watch?v=JB8T_zN7ZC0&ab_channel=BrandonRohrer)
 
 ![CV](./Images/1_OCsh4qf4lLoRAY-rlSZmJw.png)
